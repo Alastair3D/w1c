@@ -1,5 +1,3 @@
-require 'plane'
-
 class Airport
   attr_reader :hangar
 

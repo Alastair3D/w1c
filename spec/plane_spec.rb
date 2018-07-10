@@ -8,22 +8,21 @@ describe Plane do
     end
   end
 
-  describe '#land' do
-    it { is_expected.to respond_to :land }
-    it 'should change @flying to false' do
-      subject.land
-      expect(subject.flying).to eq false
-    end
-    it 'adds plane to @hangar' do
-      subject.land
+  describe '#flying?' do
+    it 'returns status' do
+      expect(subject.flying?).to eq false
     end
   end
 
-  describe '#take_off' do
-    it { is_expected.to respond_to :take_off }
-    it 'should change @flying to true' do
-      subject.take_off
-      expect(subject.flying).to eq true
+  describe '#ground' do
+    it 'sets @flying to false' do
+    expect(subject.ground).to eq false
+    end
+  end
+
+  describe '#fly' do
+    it 'sets @flying to true' do
+      expect(subject.fly).to eq true
     end
   end
 
