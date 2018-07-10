@@ -14,6 +14,9 @@ describe Plane do
       subject.land
       expect(subject.flying).to eq false
     end
+    it 'adds plane to @hangar' do
+      subject.land
+    end
   end
 
   describe '#take_off' do

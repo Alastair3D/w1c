@@ -1,8 +1,10 @@
+require 'plane'
+
 class Airport
-  attr_reader :planes
+  attr_reader :hangar
 
   def initialize
-    @planes = []
+    @hangar = []
   end
-  
+
 end
