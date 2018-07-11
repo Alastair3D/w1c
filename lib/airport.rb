@@ -9,12 +9,18 @@ DEFAULT_CAPACITY = 20
   end
 
   def take_off(plane)
+    clear_to_launch(plane)
     plane.fly
-    return "#{plane} has left the airport"
+    "#{plane} has left the airport"
+  end
+
+  def clear_to_launch(plane)
+    fail 'ERROR - DO NOT LAUNCH' unless @hangar.include?(plane)
   end
 
   def land(plane)
     plane.ground
+    @hangar << plane
   end
 
 end

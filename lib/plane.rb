@@ -8,6 +8,10 @@ class Plane
     @flying
   end
 
+  def landed?
+    !@flying
+  end  
+
   def ground
     @flying = false
   end
