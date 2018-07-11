@@ -4,7 +4,7 @@ describe Plane do
 
   describe '#initialize' do
     it 'defaults @flying as false' do
-      expect(subject.flying).to eq false
+      expect(subject.flying?).to eq false
     end
   end
 
