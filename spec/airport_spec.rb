@@ -22,15 +22,22 @@ describe Airport do
     it { is_expected.to respond_to(:take_off).with(1).argument }
     it 'sets @flying to true' do
       p1 = Plane.new
-      subject.land(p1) 
+      subject.land(p1)
       subject.take_off(p1)
       expect(p1.flying?).to be true
     end
   end
 
   describe '#clear_to_launch' do
-    it 'safety checks before take_off' do
+    it 'checks plane in hangar' do
       p1 = Plane.new
+      expect { subject.clear_to_launch(p1) }.to raise_error 'ERROR - CANNOT LAUNCH'
+    end
+    it 'safety checks weather' do
+      p1 = Plane.new
+      subject.land(p1)
+      w1 = Weather.new
+      w1.stormy?
       expect { subject.clear_to_launch(p1) }.to raise_error 'ERROR - DO NOT LAUNCH'
     end
   end
