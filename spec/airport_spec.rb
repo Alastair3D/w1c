@@ -5,11 +5,17 @@ describe Airport do
   DEFAULT_CAPACITY = 20
 
   describe '#initialize' do
-    it 'defaults capacity when no paramaters passed' do
+    it 'defaults with capacity of 20 when no paramaters present' do
       expect(subject.capacity).to eq(DEFAULT_CAPACITY)
     end
-    it 'defaults with empty @hangar' do
-      expect(subject.hangar).to eq []
+    it 'allows variable capacity to be passed' do
+      different_capacity = 30
+      a1 = Airport.new(different_capacity)
+      expect(a1.capacity).to eq different_capacity
+    end
+
+    it 'defaults with an empty @hangar' do
+      expect(subject.hangar).to be_empty
     end
   end
 
@@ -31,9 +37,9 @@ describe Airport do
       a1.land(p1)
       expect(p1.flying?).to eq false
     end
-    it 'adds plane to @hangar' do
-      subject.land
-    end
+    # it 'adds plane to @hangar' do
+    #   subject.land
+    # end
 
   end
 
