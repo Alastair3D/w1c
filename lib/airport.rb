@@ -8,23 +8,34 @@ DEFAULT_CAPACITY = 20
     @hangar = []
   end
 
-  def take_off(plane)
-    plane.fly
-    "#{plane} has left the airport"
-  end
-
-  def clear_to_launch(plane)
-    fail 'ERROR - CANNOT LAUNCH' unless @hangar.include?(plane)
-    fail 'ERROR - DO NOT LAUNCH' if weather.stormy?
-  end
-
   def weather
     Weather.new
+  end
+
+  def take_off(plane)
+    plane.fly
+    @hangar.delete(plane)
+    "#{plane} has left the airport"
   end
 
   def land(plane)
     plane.ground
     @hangar << plane
   end
+
+# private
+
+  def clear_to_launch(plane)
+    fail 'ERROR - PLANE NOT IN HANGAR' unless @hangar.include?(plane)
+    fail 'WEATHER WARNING - DO NOT LAUNCH' if weather.stormy?
+  end
+
+  # def clear_to_land
+  # end
+
+  def weather
+    Weather.new
+  end
+
 
 end

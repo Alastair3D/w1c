@@ -10,7 +10,7 @@ class Plane
 
   def landed?
     !@flying
-  end  
+  end
 
   def ground
     @flying = false

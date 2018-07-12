@@ -9,7 +9,7 @@ describe Plane do
   end
 
   describe '#flying?' do
-    it 'returns status' do
+    it 'returns @flying status' do
       expect(subject.flying?).to eq false
     end
   end
