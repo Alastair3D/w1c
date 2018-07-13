@@ -2,7 +2,7 @@ require 'airport'
 
 describe Airport, :airport do
   let(:plane) { double :Plane }
-  let(:weather) { double :Weather, stormy?: stormy }
+  let(:weather) { double :Weather, stormy?: false }
   let(:stormy) { false }
   # let(:calm_weather) { double :Weather, stormy?: false }
   # let(:stormy_weather) { double :Weather, stormy?: true }
@@ -32,24 +32,18 @@ describe Airport, :airport do
       context 'when weather is calm' do
         before { subject.hangar << plane }
         let(:stormy) { false }
-
           it 'causes plane to take flight' do
             allow(plane).to receive(:fly).and_return(true)
             allow(plane).to receive(:flying?).and_return(true)
             subject.take_off(plane)
-            # allow(plane).to receive(:fly, flying: true)
-            # allow(plane).to receive(:fly).and_return(true)
             expect(plane.flying?).to be true
           end
-
           it 'causes plane to take flight - actual plane object' do
             p1 = Plane.new
             subject.land(p1)
             subject.take_off(p1)
             expect(p1.flying?).to be true
           end
-
-
         it 'checks the plane has left the hangar' do
           p1 = Plane.new
           subject.land(p1)
@@ -64,8 +58,8 @@ describe Airport, :airport do
             p1 = Plane.new
             subject.land(p1)
             expect{ subject.take_off(p1) }.to raise_error 'WEATHER WARNING - DO NOT LAUNCH'
-            end
           end
+      end
 
   describe '#clear_to_launch' do
       it 'checks plane is in hangar' do
@@ -76,8 +70,8 @@ describe Airport, :airport do
       context 'when the weather is stormy' do
           let(:stormy) { true }
           it 'safety checks weather' do
-          expect { subject.clear_to_launch(plane) }.to raise_error 'WEATHER WARNING - DO NOT LAUNCH'
-        end
+            expect { subject.clear_to_launch(plane) }.to raise_error 'WEATHER WARNING - DO NOT LAUNCH'
+          end
       end
 
       context 'when the weather is calm' do
