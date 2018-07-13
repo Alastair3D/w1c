@@ -32,10 +32,13 @@ describe Airport, :airport do
       context 'when weather is calm' do
         before { subject.hangar << plane }
         let(:stormy) { false }
+
           it 'causes plane to take flight' do
+            allow(plane).to receive(:fly).and_return(true)
+            allow(plane).to receive(:flying?).and_return(true)
             subject.take_off(plane)
             # allow(plane).to receive(:fly, flying: true)
-            allow(plane).to receive(:fly).and_return(true)
+            # allow(plane).to receive(:fly).and_return(true)
             expect(plane.flying?).to be true
           end
 
