@@ -4,8 +4,8 @@ describe Airport, :airport do
   let(:plane) { double :Plane }
   let(:weather) { double :Weather, stormy?: stormy }
   # let(:calm_weather) { double :Weather, stormy?: false }
-  # let(:stormy_weather) { double :Weather, stormy?: true }
-  # let(:stormy) { false }
+  let(:stormy_weather) { double :Weather, stormy?: true }
+  let(:stormy) { false }
   before { allow(Weather).to receive(:new).and_return(weather) }
 
   DEFAULT_CAPACITY = 20
@@ -36,11 +36,7 @@ describe Airport, :airport do
           subject.land(p1)
           subject.take_off(p1)
           expect(p1.flying?).to be true
-        end        #
-        # it 'causes a doubled plane to take flight' do
-        #   subject.take_off(plane)
-        #   expect(plane).to receive(:fly)
-        # end
+        end
         it 'checks the plane has left the hangar' do
           p1 = Plane.new
           subject.land(p1)
@@ -48,16 +44,15 @@ describe Airport, :airport do
           expect(subject.hangar).not_to include p1
         end
       end
-
+      # 
       # context 'when the weather is stormy' do
+      #   let(:stormy) { true }
       #     it 'disallows plane to take flight' do
       #       p1 = Plane.new
       #       subject.land(p1)
       #       subject.take_off(p1)
       #       end
       #     end
-
-
 
   describe '#clear_to_launch' do
 
@@ -68,21 +63,22 @@ describe Airport, :airport do
 
       context 'when the weather is stormy' do
           let(:stormy) { true }
-
           it 'safety checks weather' do
-          # p1 = Plane.new
-          # subject.land(p1)
-          # w1 = Weather.new
-          # w1.stormy?
-          # allow(weather).to receive(:stormy?).and_return(true)
           expect { subject.clear_to_launch(plane) }.to raise_error 'WEATHER WARNING - DO NOT LAUNCH'
         end
+      end
+
+      context 'when the weather is calm' do
+        let(:stormy) { false }
+          it 'safety checks weather' do
+            expect { subject.clear_to_launch(plane) }.not_to raise_error
+          end
       end
     end
 
   describe '#land', :land do
     it { is_expected.to respond_to(:land).with(1).argument }
-    it 'sets @flying to false' do
+    it 'causes plane to land' do
       p1 = Plane.new
       subject.land(p1)
       expect(p1.flying?).to eq false

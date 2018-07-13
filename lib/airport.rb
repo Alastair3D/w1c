@@ -9,6 +9,7 @@ DEFAULT_CAPACITY = 20
   end
 
   def take_off(plane)
+    clear_to_launch(plane)
     plane.fly
     @hangar.delete(plane)
     "#{plane} has left the airport"
