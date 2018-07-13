@@ -23,12 +23,12 @@ DEFAULT_CAPACITY = 20
 # private
 
   def clear_to_launch(plane)
-    fail 'ERROR - PLANE NOT IN THE HANGAR' unless @hangar.include?(plane)
+    fail 'ERROR - PLANE NOT IN HANGAR' unless @hangar.include?(plane)
     fail 'WEATHER WARNING - DO NOT LAUNCH' if weather.stormy?
   end
 
   def clear_to_land(plane)
-    fail 'ERROR - PLANE NOT IN THE SKY' if @hangar.include?(plane)
+    fail 'ERROR - PLANE NOT IN SKY' if @hangar.include?(plane)
   end
 
   def weather
