@@ -34,8 +34,8 @@ describe Airport, :airport do
         let(:stormy) { false }
           it 'causes plane to take flight' do
             subject.take_off(plane)
-            allow(plane).to receive(:fly, flying: true)
-            # allow(plane).to receive(:fly).and_return(true)
+            # allow(plane).to receive(:fly, flying: true)
+            allow(plane).to receive(:fly).and_return(true)
             expect(plane.flying?).to be true
           end
 
