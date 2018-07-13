@@ -52,8 +52,6 @@ describe Airport, :airport do
         let(:stormy) { true }
           it 'disallows plane to fly' do
             subject.hangar << plane
-            # p1 = Plane.new
-            # subject.land(p1)
             expect{ subject.take_off(plane) }.to raise_error 'WEATHER WARNING - DO NOT LAUNCH'
           end
       end
@@ -110,14 +108,13 @@ describe Airport, :airport do
         end
         context 'when weather is stormy' do
           before { subject.take_off(plane) }
-
           let(:stormy) { true }
           it 'safety checks weather before landing' do
             # p1 = Plane.new
             # allow(subject).to receive(take_off(p1))
             # allow(plane).to receive(:fly).and_return(true)
             # allow(plane).to receive(:flying?).and_return(true)
-            expect { subject.clear_to_land(p1) }.to raise_error 'WEATHER - DO NOT LAND'
+            expect { subject.clear_to_land(plane) }.to raise_error 'WEATHER - DO NOT LAND'
           end
         end
       end

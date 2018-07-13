@@ -33,7 +33,7 @@ DEFAULT_CAPACITY = 20
   end
 
 
-  # private
+  private
 
   def weather
     Weather.new
