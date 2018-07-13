@@ -3,9 +3,9 @@ require 'airport'
 describe Airport, :airport do
   let(:plane) { double :Plane }
   let(:weather) { double :Weather, stormy?: stormy }
-  # let(:calm_weather) { double :Weather, stormy?: false }
-  let(:stormy_weather) { double :Weather, stormy?: true }
   let(:stormy) { false }
+  # let(:calm_weather) { double :Weather, stormy?: false }
+  # let(:stormy_weather) { double :Weather, stormy?: true }
   before { allow(Weather).to receive(:new).and_return(weather) }
 
   DEFAULT_CAPACITY = 20
@@ -27,16 +27,25 @@ describe Airport, :airport do
 
   describe '#take_off', :take_off do
     before { subject.hangar << plane }
-
       it { is_expected.to respond_to(:take_off).with(1).argument }
 
       context 'when weather is calm' do
-        it 'causes plane to take flight' do
-          p1 = Plane.new
-          subject.land(p1)
-          subject.take_off(p1)
-          expect(p1.flying?).to be true
-        end
+        before { subject.hangar << plane }
+        let(:stormy) { false }
+          it 'causes plane to take flight' do
+            subject.take_off(plane)
+            allow(plane).to receive(:fly, flying: true)
+            # allow(plane).to receive(:fly).and_return(true)
+            expect(plane.flying?).to be true
+          end
+
+          # p1 = Plane.new
+          # subject.land(p1)
+          # subject.take_off(p1)
+          # expect(p1.flying?).to be true
+          # end
+
+
         it 'checks the plane has left the hangar' do
           p1 = Plane.new
           subject.land(p1)
@@ -44,18 +53,17 @@ describe Airport, :airport do
           expect(subject.hangar).not_to include p1
         end
       end
-      # 
-      # context 'when the weather is stormy' do
-      #   let(:stormy) { true }
-      #     it 'disallows plane to take flight' do
-      #       p1 = Plane.new
-      #       subject.land(p1)
-      #       subject.take_off(p1)
-      #       end
-      #     end
+
+      context 'when the weather is stormy' do
+        let(:stormy) { true }
+          it 'disallows plane to take flight' do
+            p1 = Plane.new
+            subject.land(p1)
+            expect{ subject.take_off(p1) }.to raise_error 'WEATHER WARNING - DO NOT LAUNCH'
+            end
+          end
 
   describe '#clear_to_launch' do
-
       it 'checks plane is in hangar' do
         subject.hangar.delete(plane)
         expect { subject.clear_to_launch(plane) }.to raise_error 'ERROR - PLANE NOT IN HANGAR'
