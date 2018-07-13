@@ -16,6 +16,7 @@ DEFAULT_CAPACITY = 20
   end
 
   def land(plane)
+    clear_to_land(plane)
     plane.ground
     @hangar << plane
   end
@@ -29,6 +30,7 @@ DEFAULT_CAPACITY = 20
 
   def clear_to_land(plane)
     fail 'ERROR - PLANE NOT IN SKY' if @hangar.include?(plane)
+    fail 'CAPACITY WARNING - DO NOT LAND' if @hangar.length >= capacity
   end
 
   def weather

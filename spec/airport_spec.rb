@@ -1,5 +1,4 @@
 require 'airport'
-require 'plane'
 
 describe Airport, :airport do
   let(:capacity) { double :capacity}
@@ -31,7 +30,6 @@ describe Airport, :airport do
 
       context 'when weather is calm' do
         before { subject.hangar << plane }
-        # let(:stormy) { false }
           it 'causes plane to take flight' do
             allow(plane).to receive(:fly).and_return(true)
             allow(plane).to receive(:flying?).and_return(true)
@@ -67,7 +65,6 @@ describe Airport, :airport do
           expect { subject.clear_to_launch(plane) }.to raise_error 'ERROR - PLANE NOT IN HANGAR'
       end
       context 'when the weather is calm' do
-        # let(:stormy) { false }
           it 'safety checks weather' do
             expect { subject.clear_to_launch(plane) }.not_to raise_error
           end
@@ -99,12 +96,22 @@ describe Airport, :airport do
           expect { subject.clear_to_land(plane) }.to raise_error 'ERROR - PLANE NOT IN SKY'
       end
       it 'checks there is space in the hangar' do
-        allow(plane).to receive(:ground).and_return(false)
-          capacity.times { subject.land(plane) }
-          DEFAULT_CAPACITY.times { subject.land(plane) }
-          expect { subject.land(plane) }.to raise_error 'ERROR - HANGAR FULL'
+        # allow(plane).to receive(:ground).and_return(false)
+        subject.capacity.times { subject.hangar << plane }
+        # allow(capacity).to receive(:times).and_return(20)
+        #   subject.capacity.times { subject.land(plane) }
+          # subject.capacity.times { subject.hangar << plane }
+          20.times { subject.hangar << plane }
+          p1 = Plane.new
+          # Airport::DEFAULT_CAPACITY.times { subject.land(plane) }
+          expect { subject.land(p1) }.to raise_error 'CAPACITY WARNING - DO NOT LAND'
       end
     end
+
+    # subject.capacity.times { subject.planes << plane }
+    # expect { subject.land(plane) }.to raise_error 'This airport is at maximum capacity'
+    #
+
 
    #    # it 'safety checks weather' do
    #    #   w1 = Weather.new
