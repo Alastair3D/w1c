@@ -99,9 +99,6 @@ describe Airport, :airport do
         # allow(plane).to receive(:ground).and_return(false)
         subject.capacity.times { subject.hangar << plane }
         # allow(capacity).to receive(:times).and_return(20)
-        #   subject.capacity.times { subject.land(plane) }
-          # subject.capacity.times { subject.hangar << plane }
-          20.times { subject.hangar << plane }
           p1 = Plane.new
           # Airport::DEFAULT_CAPACITY.times { subject.land(plane) }
           expect { subject.land(p1) }.to raise_error 'CAPACITY WARNING - DO NOT LAND'
