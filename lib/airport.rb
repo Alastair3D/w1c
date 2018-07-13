@@ -1,5 +1,5 @@
 class Airport
-  attr_reader :capacity, :flying, :hangar
+  attr_reader :capacity, :hangar, :flying
 
 DEFAULT_CAPACITY = 20
 
@@ -38,5 +38,12 @@ DEFAULT_CAPACITY = 20
     Weather.new
   end
 
+  def full?
+    @hangar.length >= @capacity
+  end
+
+  def plane_in_hangar?(plane)
+    @hangar.include?(plane)
+  end
 
 end
