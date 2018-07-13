@@ -101,29 +101,25 @@ describe Airport, :airport do
           p1 = Plane.new
           expect { subject.land(p1) }.to raise_error 'CAPACITY WARNING - DO NOT LAND'
       end
-      it 'safety checks weather '
 
+        context 'when weather is calm' do
+          it 'safety checks weather' do
+            allow(plane).to receive(:fly).and_return(true)
+            allow(plane).to receive(:flying?).and_return(true)
+            subject.take_off(plane)
+            expect { subject.clear_to_land(plane) }.not_to raise_error
+          end
+        end
+
+        context 'when weather is stormy' do
+          let(:stormy) { true }
+          it 'safety checks weather' do
+            subject.take_off(plane)
+            allow(plane).to receive(:fly).and_return(true)
+            allow(plane).to receive(:flying?).and_return(true)
+            expect {subject.clear_to_land(plane) }.to raise_error 'WEATHER WARNING - DO NOT LAND'
+          end
+        end
+      end
     end
-
-
-
-   #    # it 'safety checks weather' do
-   #    #   w1 = Weather.new
-   #    #   w1.stormy?
-   #    #   allow(weather).to receive(:stormy?).and_return(true)
-   #    #   expect { subject.land(plane) }.to
-   #    # end
-   #  end
-   #
-   #  context 'when the weather is stormy' do
-   #  let(:stormy) { true }
-   #
-   # it 'raises an error when trying to land a plane' do
-   #   expect { subject.land(plane) }.to raise_error 'The weather does not permit landing'
-   # end
-
-
-  end
-
-
 end
