@@ -96,18 +96,13 @@ describe Airport, :airport do
           expect { subject.clear_to_land(plane) }.to raise_error 'ERROR - PLANE NOT IN SKY'
       end
       it 'checks there is space in the hangar' do
-        # allow(plane).to receive(:ground).and_return(false)
         subject.capacity.times { subject.hangar << plane }
-        # allow(capacity).to receive(:times).and_return(20)
+        # Airport::DEFAULT_CAPACITY.times { subject.land(plane) }
           p1 = Plane.new
-          # Airport::DEFAULT_CAPACITY.times { subject.land(plane) }
           expect { subject.land(p1) }.to raise_error 'CAPACITY WARNING - DO NOT LAND'
       end
     end
 
-    # subject.capacity.times { subject.planes << plane }
-    # expect { subject.land(plane) }.to raise_error 'This airport is at maximum capacity'
-    #
 
 
    #    # it 'safety checks weather' do
