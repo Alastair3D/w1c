@@ -8,10 +8,6 @@ DEFAULT_CAPACITY = 20
     @hangar = []
   end
 
-  def weather
-    Weather.new
-  end
-
   def take_off(plane)
     plane.fly
     @hangar.delete(plane)

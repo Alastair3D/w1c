@@ -1,9 +1,10 @@
 require 'airport'
 
 describe Airport, :airport do
-  let(:plane) { double :plane }
-  let(:calm_weather) { double :weather, stormy?: false }
-  let(:stormy_weather) { double :weather, stormy?: true }
+  let(:plane) { double :Plane }
+  let(:weather) { double :Weather }
+  let(:calm_weather) { double :Weather, stormy?: false }
+  let(:stormy_weather) { double :Weather, stormy?: true }
   DEFAULT_CAPACITY = 20
 
   describe '#initialize', :initialize do
@@ -42,29 +43,33 @@ describe Airport, :airport do
           subject.take_off(p1)
           expect(subject.hangar).not_to include p1
         end
-        # it 'confirms the plane has taken off' do
-        #   subject.take_off(plane).to raise 'Plane has left the airport'
-        # end
       end
 
-      context 'when the weather is stormy' do
-          it 'disallows plane to take flight' do
-            p1 = Plane.new
-            subject.land(p1)
-            subject.take_off(p1)
-            end
-          end
+      # context 'when the weather is stormy' do
+      #     it 'disallows plane to take flight' do
+      #       p1 = Plane.new
+      #       subject.land(p1)
+      #       subject.take_off(p1)
+      #       end
+      #     end
 
   describe '#clear_to_launch' do
       it 'checks plane is in hangar' do
         subject.hangar.delete(plane)
         expect { subject.clear_to_launch(plane) }.to raise_error 'ERROR - PLANE NOT IN HANGAR'
       end
+
+
+      # it 'is expected not to take off planes in stormy weather', :storm_take_off do
+      #      subject.planes = [landed_plane]
+      #      expect { subject.take_off(landed_plane, stormy_weather) }.to raise_error "It's too stormy!"
+      #    end
      it 'safety checks weather' do
-        p1 = Plane.new
-        subject.land(p1)
-        w1 = Weather.new
-        w1.stormy?
+        # p1 = Plane.new
+        # subject.land(p1)
+        # w1 = Weather.new
+        # w1.stormy?
+        allow(weather).to receive(:stormy?).and_return(true)
         expect { subject.clear_to_launch(plane) }.to raise_error 'WEATHER WARNING - DO NOT LAUNCH'
       end
     end
