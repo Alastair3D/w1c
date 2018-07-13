@@ -2,9 +2,12 @@ require 'airport'
 
 describe Airport, :airport do
   let(:plane) { double :Plane }
-  let(:weather) { double :Weather }
-  let(:calm_weather) { double :Weather, stormy?: false }
-  let(:stormy_weather) { double :Weather, stormy?: true }
+  let(:weather) { double :Weather, stormy?: stormy }
+  # let(:calm_weather) { double :Weather, stormy?: false }
+  # let(:stormy_weather) { double :Weather, stormy?: true }
+  # let(:stormy) { false }
+  before { allow(Weather).to receive(:new).and_return(weather) }
+
   DEFAULT_CAPACITY = 20
 
   describe '#initialize', :initialize do
@@ -15,6 +18,7 @@ describe Airport, :airport do
       different_capacity = 30
       a1 = Airport.new(different_capacity)
       expect(a1.capacity).to eq different_capacity
+      expect(Airport.new(50).capacity).to eq 50
     end
     it 'defaults with an empty @hangar' do
       expect(subject.hangar).to be_empty
@@ -53,27 +57,28 @@ describe Airport, :airport do
       #       end
       #     end
 
+
+
   describe '#clear_to_launch' do
+
       it 'checks plane is in hangar' do
         subject.hangar.delete(plane)
         expect { subject.clear_to_launch(plane) }.to raise_error 'ERROR - PLANE NOT IN HANGAR'
       end
 
+      context 'when the weather is stormy' do
+          let(:stormy) { true }
 
-      # it 'is expected not to take off planes in stormy weather', :storm_take_off do
-      #      subject.planes = [landed_plane]
-      #      expect { subject.take_off(landed_plane, stormy_weather) }.to raise_error "It's too stormy!"
-      #    end
-     it 'safety checks weather' do
-        # p1 = Plane.new
-        # subject.land(p1)
-        # w1 = Weather.new
-        # w1.stormy?
-        allow(weather).to receive(:stormy?).and_return(true)
-        expect { subject.clear_to_launch(plane) }.to raise_error 'WEATHER WARNING - DO NOT LAUNCH'
+          it 'safety checks weather' do
+          # p1 = Plane.new
+          # subject.land(p1)
+          # w1 = Weather.new
+          # w1.stormy?
+          # allow(weather).to receive(:stormy?).and_return(true)
+          expect { subject.clear_to_launch(plane) }.to raise_error 'WEATHER WARNING - DO NOT LAUNCH'
+        end
       end
     end
-
 
   describe '#land', :land do
     it { is_expected.to respond_to(:land).with(1).argument }
@@ -88,21 +93,28 @@ describe Airport, :airport do
       expect(subject.hangar).to include p1
       end
     end
-    #
-    # describe '#clear_to_land' do
-    #   it 'checks there is space in the hangar' do
-    #     20.times { subject.land(plane) }
-    #     allow(plane).to receive(:ground).and_return(true)
-    #     expect { subject.land(plane) }.to raise_error 'ERROR - HANGAR FULL'
-    #   end
-    #   it 'safety checks weather' do
-    #     w1 = Weather.new
-    #     w1.stormy?
-    #     allow(weather).to receive(:stormy?).and_return(true)
-    #     expect { subject.land(plane) }.to
-    #   end
-    # end
 
+  #   describe '#clear_to_land' do
+  #     it 'checks there is space in the hangar' do
+  #       capacity.times { subject.land(plane) }
+  #       allow(plane).to receive(:ground).and_return(false)
+  #       expect { subject.land(plane) }.to raise_error 'ERROR - HANGAR FULL'
+  #     end
+  #     # it 'safety checks weather' do
+  #     #   w1 = Weather.new
+  #     #   w1.stormy?
+  #     #   allow(weather).to receive(:stormy?).and_return(true)
+  #     #   expect { subject.land(plane) }.to
+  #     # end
+  #   end
+  #
+  #   context 'when the weather is stormy' do
+  #  let(:stormy) { true }
+  #
+  #  it 'raises an error when trying to land a plane' do
+  #    expect { subject.land(plane) }.to raise_error 'The weather does not permit landing'
+  #  end
+  #
 
   end
 
