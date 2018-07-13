@@ -27,7 +27,6 @@ describe Airport, :airport do
   describe '#take_off', :take_off do
     before { subject.hangar << plane }
       it { is_expected.to respond_to(:take_off).with(1).argument }
-
       context 'when weather is calm' do
         before { subject.hangar << plane }
           it 'causes plane to take flight' do
@@ -49,13 +48,13 @@ describe Airport, :airport do
           expect(subject.hangar).not_to include p1
         end
       end
-
       context 'when weather is stormy' do
         let(:stormy) { true }
           it 'disallows plane to fly' do
-            p1 = Plane.new
-            subject.land(p1)
-            expect{ subject.take_off(p1) }.to raise_error 'WEATHER WARNING - DO NOT LAUNCH'
+            subject.hangar << plane
+            # p1 = Plane.new
+            # subject.land(p1)
+            expect{ subject.take_off(plane) }.to raise_error 'WEATHER WARNING - DO NOT LAUNCH'
           end
       end
 
@@ -65,13 +64,13 @@ describe Airport, :airport do
           expect { subject.clear_to_launch(plane) }.to raise_error 'ERROR - PLANE NOT IN HANGAR'
       end
       context 'when weather is calm' do
-          it 'safety checks weather' do
+          it 'safety checks weather before take_off' do
             expect { subject.clear_to_launch(plane) }.not_to raise_error
           end
       end
       context 'when weather is stormy' do
           let(:stormy) { true }
-          it 'safety checks weather' do
+          it 'safety checks weather before take_off' do
             expect { subject.clear_to_launch(plane) }.to raise_error 'WEATHER WARNING - DO NOT LAUNCH'
           end
       end
@@ -102,7 +101,7 @@ describe Airport, :airport do
           expect { subject.land(p1) }.to raise_error 'CAPACITY WARNING - DO NOT LAND'
       end
         context 'when weather is calm' do
-          it 'safety checks weather' do
+          it 'safety checks weather before landing' do
             allow(plane).to receive(:fly).and_return(true)
             allow(plane).to receive(:flying?).and_return(true)
             subject.take_off(plane)
@@ -110,14 +109,18 @@ describe Airport, :airport do
           end
         end
         context 'when weather is stormy' do
+          before { subject.take_off(plane) }
+
           let(:stormy) { true }
-          it 'safety checks weather' do
-            subject.take_off(plane)
-            allow(plane).to receive(:fly).and_return(true)
-            allow(plane).to receive(:flying?).and_return(true)
-            expect {subject.clear_to_land(plane) }.to raise_error 'WEATHER - DO NOT LAND'
+          it 'safety checks weather before landing' do
+            # p1 = Plane.new
+            # allow(subject).to receive(take_off(p1))
+            # allow(plane).to receive(:fly).and_return(true)
+            # allow(plane).to receive(:flying?).and_return(true)
+            expect { subject.clear_to_land(p1) }.to raise_error 'WEATHER - DO NOT LAND'
           end
         end
       end
     end
+
 end
