@@ -101,7 +101,6 @@ describe Airport, :airport do
           p1 = Plane.new
           expect { subject.land(p1) }.to raise_error 'CAPACITY WARNING - DO NOT LAND'
       end
-
         context 'when weather is calm' do
           it 'safety checks weather' do
             allow(plane).to receive(:fly).and_return(true)
@@ -110,14 +109,13 @@ describe Airport, :airport do
             expect { subject.clear_to_land(plane) }.not_to raise_error
           end
         end
-
         context 'when weather is stormy' do
           let(:stormy) { true }
           it 'safety checks weather' do
             subject.take_off(plane)
             allow(plane).to receive(:fly).and_return(true)
             allow(plane).to receive(:flying?).and_return(true)
-            expect {subject.clear_to_land(plane) }.to raise_error 'WEATHER WARNING - DO NOT LAND'
+            expect {subject.clear_to_land(plane) }.to raise_error 'WEATHER - DO NOT LAND'
           end
         end
       end
