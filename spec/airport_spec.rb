@@ -42,11 +42,12 @@ describe Airport, :airport do
             expect(plane.flying?).to be true
           end
 
-          # p1 = Plane.new
-          # subject.land(p1)
-          # subject.take_off(p1)
-          # expect(p1.flying?).to be true
-          # end
+          it 'causes plane to take flight - actual plane object' do
+            p1 = Plane.new
+            subject.land(p1)
+            subject.take_off(p1)
+            expect(p1.flying?).to be true
+          end
 
 
         it 'checks the plane has left the hangar' do
