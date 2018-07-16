@@ -5,7 +5,9 @@ describe Airport, :airport do
   let(:plane) { double :Plane }
   let(:weather) { double :weather, stormy?: stormy }
   let(:stormy) { false }
-  before { allow(Weather).to receive(:new).and_return(weather) }
+  # before { allow(Weather).to receive(:new).and_return(weather) }
+
+  subject { Weather.new(:weather) }
 
   DEFAULT_CAPACITY = 20
 
@@ -74,18 +76,18 @@ describe Airport, :airport do
       end
     end
 
-  describe '#land', :land do
-    it { is_expected.to respond_to(:land).with(1).argument }
-    it 'causes plane to land' do
-      p1 = Plane.new
-      subject.land(p1)
-        expect(p1.flying?).to eq false
-    end
-    it 'adds plane to @hangar' do
-      p1 = Plane.new
-      subject.land(p1)
-        expect(subject.hangar).to include p1
+    describe '#land', :land do
+      it { is_expected.to respond_to(:land).with(1).argument }
+      it 'causes plane to land' do
+        p1 = Plane.new
+        subject.land(p1)
+          expect(p1.flying?).to eq false
       end
+      it 'adds plane to @hangar' do
+        p1 = Plane.new
+        subject.land(p1)
+          expect(subject.hangar).to include p1
+        end
     end
 
     describe '#clear_to_land' do
@@ -107,13 +109,13 @@ describe Airport, :airport do
           end
         end
         context 'when weather is stormy' do
-          before { subject.take_off(plane) }
-          let(:stormy) { true }
           it 'safety checks weather before landing' do
             # p1 = Plane.new
             # allow(subject).to receive(take_off(p1))
             # allow(plane).to receive(:fly).and_return(true)
             # allow(plane).to receive(:flying?).and_return(true)
+            subject.take_off(plane)
+            allow(weather).to receive(:stormy?).and_return(true)
             expect { subject.clear_to_land(plane) }.to raise_error 'WEATHER - DO NOT LAND'
           end
         end
